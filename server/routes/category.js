@@ -1,10 +1,9 @@
-// server/routes/category.js
+
 const express = require('express');
 const router = express.Router();
 const Category = require('../models/Category');
 const { authenticateToken } = require('./auth');
 
-// Get all categories for a user
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const categories = await Category.find({ userId: req.user.userId });
@@ -14,7 +13,6 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Add new category
 router.post('/', authenticateToken, async (req, res) => {
     try {
         const { name } = req.body;
