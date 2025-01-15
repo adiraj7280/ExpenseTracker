@@ -1,10 +1,9 @@
-// server/routes/income.js
+
 const express = require('express');
 const router = express.Router();
 const Income = require('../models/Income');
 const { authenticateToken } = require('./auth');
 
-// Get all incomes for a user
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const incomes = await Income.find({ userId: req.user.userId });
@@ -14,7 +13,6 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Add new income
 router.post('/', authenticateToken, async (req, res) => {
     try {
         const { amount, month, year } = req.body;
@@ -50,7 +48,6 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Lock income for a month
 router.patch('/lock/:id', authenticateToken, async (req, res) => {
     try {
         const income = await Income.findOne({
