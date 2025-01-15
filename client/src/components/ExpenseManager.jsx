@@ -1,4 +1,4 @@
-// src/components/ExpenseManager.js
+
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
 import ExpenseForm from './ExpenseForm';
