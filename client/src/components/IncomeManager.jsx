@@ -1,4 +1,4 @@
-// src/components/IncomeManager.js
+
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
 
