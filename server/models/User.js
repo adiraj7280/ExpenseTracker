@@ -26,7 +26,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Index for efficient queries
 userSchema.index({ username: 1, email: 1 });
 
 module.exports = mongoose.model('User', userSchema);
