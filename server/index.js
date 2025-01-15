@@ -7,7 +7,6 @@ require('dotenv').config();
 
 const app = express();
 
-// CORS configuration
 app.use(cors({
     origin: 'http://localhost:3000', // Replace with your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -15,11 +14,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Other middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// Migration function for existing users
 async function migrateExistingUsers() {
     try {
         const users = await User.find({ email: { $exists: false } });
@@ -38,7 +35,6 @@ async function migrateExistingUsers() {
     }
 }
 
-// Routes
 const { router: authRouter } = require('./routes/auth');
 const incomeRouter = require('./routes/income');
 const expenseRouter = require('./routes/expense');
@@ -49,20 +45,17 @@ app.use('/api/income', incomeRouter);
 app.use('/api/expense', expenseRouter);
 app.use('/api/category', categoryRouter);
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// Database connection with migration
 mongoose.connect('mongodb://localhost:27017/expense-tracker', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(async () => {
     console.log('Connected to MongoDB');
-    // Run migration for existing users
     await migrateExistingUsers();
 })
 .catch((err) => {
@@ -70,7 +63,6 @@ mongoose.connect('mongodb://localhost:27017/expense-tracker', {
     process.exit(1); // Exit if unable to connect to database
 });
 
-// Handle database connection errors after initial connection
 mongoose.connection.on('error', err => {
     console.error('MongoDB connection error:', err);
 });
@@ -79,7 +71,6 @@ mongoose.connection.on('disconnected', () => {
     console.log('MongoDB disconnected');
 });
 
-// Graceful shutdown
 process.on('SIGINT', async () => {
     try {
         await mongoose.connection.close();
