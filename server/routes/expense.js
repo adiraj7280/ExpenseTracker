@@ -1,10 +1,9 @@
-// server/routes/expense.js
+
 const express = require('express');
 const router = express.Router();
 const Expense = require('../models/Expense');
 const { authenticateToken } = require('./auth');
 
-// Get all expenses for a user
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const expenses = await Expense.find({ userId: req.user.userId });
@@ -14,7 +13,6 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Add new expense
 router.post('/', authenticateToken, async (req, res) => {
     try {
         const { title, amount, category, date } = req.body;
@@ -34,7 +32,6 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Update expense
 router.put('/:id', authenticateToken, async (req, res) => {
     try {
         const { title, amount, category, date } = req.body;
@@ -55,7 +52,6 @@ router.put('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Delete expense
 router.delete('/:id', authenticateToken, async (req, res) => {
     try {
         const expense = await Expense.findOneAndDelete({
