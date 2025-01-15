@@ -13,17 +13,16 @@ export const AuthProvider = ({ children }) => {
             setLoading(true);
             setError(null);
             
-            // Determine if userInput is an email
+            
             const isEmail = userInput.includes('@');
             
             const response = await axiosInstance.post('/auth/login', {
-                // If it's an email, send as email field, otherwise as username
+                
                 ...(isEmail ? { email: userInput } : { username: userInput }),
                 password
             });
             
             setUser(response.data.user);
-            // Store token if your API returns one
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
                 axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
@@ -44,12 +43,12 @@ export const AuthProvider = ({ children }) => {
             setLoading(true);
             setError(null);
             
-            // Validate email format
+
             if (!email.includes('@')) {
                 throw new Error('Invalid email format');
             }
             
-            // Validate password length
+
             if (password.length < 6) {
                 throw new Error('Password must be at least 6 characters long');
             }
@@ -86,7 +85,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Function to check if user is logged in (useful for protected routes)
     const checkAuth = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -105,7 +103,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Clear error message
     const clearError = () => {
         setError(null);
     };
