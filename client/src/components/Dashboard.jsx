@@ -78,7 +78,6 @@ const Dashboard = () => {
                     </button>
                 </div>
 
-                {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
                         <h3 className="text-lg font-semibold mb-2 text-gray-700">Total Income</h3>
@@ -94,7 +93,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Month/Year Selection */}
                 <div className="bg-white p-4 rounded-lg shadow-lg mb-8">
                     <div className="flex gap-4">
                         <select
@@ -126,7 +124,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Charts */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
                         <h3 className="text-lg font-semibold mb-4 text-gray-700">Income vs Expenses</h3>
@@ -170,7 +167,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Income and Expense Managers */}
                 <div className="grid grid-cols-1 gap-6">
                     <IncomeManager />
                     <ExpenseManager />
