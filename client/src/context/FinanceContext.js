@@ -1,4 +1,4 @@
-// src/context/FinanceContext.js
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
@@ -13,7 +13,7 @@ export const FinanceProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const { user } = useAuth();
 
-    // Fetch all data when user is logged in
+
     useEffect(() => {
         if (user) {
             fetchIncomes();
