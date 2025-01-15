@@ -1,4 +1,4 @@
-// src/components/CategoryManager.js
+
 import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
 
