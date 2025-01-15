@@ -54,7 +54,6 @@ const Login = () => {
                 });
             }
         } else {
-            // Show validation errors as toast
             Object.values(errors).forEach((error) => {
                 toast.error(error, {
                     position: 'top-right',
