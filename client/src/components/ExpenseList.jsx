@@ -1,4 +1,4 @@
-// src/components/ExpenseList.js
+
 import React from 'react';
 import { useFinance } from '../context/FinanceContext';
 
