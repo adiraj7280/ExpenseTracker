@@ -63,7 +63,7 @@ const Register = () => {
                     pauseOnHover: true,
                     draggable: true,
                 });
-                setTimeout(() => navigate('/login'), 1000); // Redirect after 3 seconds
+                setTimeout(() => navigate('/login'), 1000); 
             } catch (err) {
                 console.error('Registration error:', err);
                 toast.error('Failed to register. Please try again.', {
@@ -76,7 +76,6 @@ const Register = () => {
                 });
             }
         } else {
-            // Show validation errors as toast
             Object.values(errors).forEach((error) => {
                 toast.error(error, {
                     position: 'top-right',
