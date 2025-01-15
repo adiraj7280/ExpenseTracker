@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Validation middleware
 const validateRegistration = async (req, res, next) => {
     const { username, email, password } = req.body;
 
@@ -12,13 +11,11 @@ const validateRegistration = async (req, res, next) => {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Email format validation
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
         return res.status(400).json({ message: 'Invalid email format' });
     }
 
-    // Password length validation
     if (password.length < 6) {
         return res.status(400).json({ message: 'Password must be at least 6 characters long' });
     }
@@ -26,7 +23,6 @@ const validateRegistration = async (req, res, next) => {
     next();
 };
 
-// Middleware to verify JWT token
 const authenticateToken = async (req, res, next) => {
     const token = req.cookies.token;
     
@@ -43,12 +39,10 @@ const authenticateToken = async (req, res, next) => {
     }
 };
 
-// Register route
 router.post('/register', validateRegistration, async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Check if user or email already exists
         const existingUser = await User.findOne({
             $or: [
                 { username },
@@ -64,11 +58,9 @@ router.post('/register', validateRegistration, async (req, res) => {
             });
         }
 
-        // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create new user
         const user = new User({
             username,
             email: email.toLowerCase(),
@@ -83,12 +75,10 @@ router.post('/register', validateRegistration, async (req, res) => {
     }
 });
 
-// Login route
 router.post('/login', async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Check if user exists by username or email
         const user = await User.findOne({
             $or: [
                 { username: username || '' },
@@ -100,24 +90,21 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Verify password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        // Create JWT token
         const token = jwt.sign(
             { userId: user._id },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
-        // Set cookie
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+            maxAge: 24 * 60 * 60 * 1000 
         });
 
         res.json({
@@ -133,13 +120,11 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Logout route
 router.post('/logout', (req, res) => {
     res.clearCookie('token');
     res.json({ message: 'Logged out successfully' });
 });
 
-// Get current user
 router.get('/me', authenticateToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId).select('-password');
